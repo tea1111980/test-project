@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<service>
+  <short>Shadowsocks-libev-port-service</short>
+  <description>Shadowsocks-libev is a lightweight secured SOCKS5 proxy for embedded devices and low-end boxes.</description>
+  <port protocol="tcp" port="8388"/>
+</service>

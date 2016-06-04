@@ -1,33 +1,29 @@
 #!/bin/bash
-## Update: 2016-06-01 04:41
+## Update: 2016-06-01 05:52
 ### Thanks for Viz advice.
+
 INSTALL_LOG_FILE=Shadowsocks-libev.log
+SHADOWSOCKS_LIBEV_SERVICE_NAME=shadowsocks-libev-boot-server.service
+SSLIBEV_PORT_PATH=./ss/Shadowsocks-libev-firewall-port.xml
+SSLIBEV_SERVICE_PATH=./ss/shadowsocks-libev-boot-server.service
+SSLIBEV_CONFIG_FILE_PATH=./ss/config.json
 
 echo "SS Install on native machine and time is: $(date -d now '+%Y-%m-%d %T %A')"
 
 echo
 echo
-echo '// 调整时区到国内'
-echo
-echo                           '#### Settings timeZone to CTS... ####'
-timedatectl set-timezone 'Asia/Shanghai'
-
+echo '######## // 首次更新系统软件清单 // ######## First Update System Software Lists...'
 echo
 echo
-echo '// 首次更新系统软件清单'
-echo
-echo                       '#### First Update System Software Lists... ####'
-echo
-yum update -y
+sudo yum update -y
 
 echo
 echo
 
-echo '// 预备程序环境'
+echo '######## // 预备程序环境 // ######### Ready Programs Environment...'
 echo
-echo                         '#### Ready Programs Environment... ####'
 echo
-yum install -y gcc automake autoconf libtool \
+sudo yum install -y gcc automake autoconf libtool \
                make build-essential bash-completion vim curl \
                curl-devel zlib-devel openssl-devel perl git \
                perl-devel cpio expat-devel gettext-devel htop \
@@ -36,10 +32,7 @@ yum install -y gcc automake autoconf libtool \
 echo
 echo
 
-echo '// 用户自定义环境'
-echo
-
-echo '// 第一用户环境'
+echo '######## // 用户自定义环境 开始 // ######## User defined environment to Begin...'
 echo
 
 if [ -f $HOME/.bashrc.old.bak ]; then
@@ -54,25 +47,6 @@ else
     /bin/cp $HOME/.vimrc{,.old.bak} 2>>${INSTALL_LOG_FILE}
 fi
 
-if [ -f /etc/profile.old.bak ]; then
-    echo "/etc/profile.old.bak file existing don't Backup" 1>>${INSTALL_LOG_FILE}
-else
-    /bin/cp /etc/profile{,.old.bak} 2>>${INSTALL_LOG_FILE}
-fi
-
-if [ -f /etc/pam.d/login.old.bak ]; then
-    echo "/etc/pam.d/login.old.bak file existing don't Backup" 1>>${INSTALL_LOG_FILE}
-else
-    /bin/cp /etc/pam.d/login{,.old.bak} 2>>${INSTALL_LOG_FILE}
-fi
-
-if [ -f /etc/pam.d/su.old.bak ]; then
-    echo "/etc/pam.d/su.old.bak file existing don't Backup" 1>>${INSTALL_LOG_FILE}
-else
-    /bin/cp /etc/pam.d/su{,.old.bak} 2>>${INSTALL_LOG_FILE}
-fi
-
-echo '// 第二用户环境'
 echo
 echo "export LS_OPTIONS='--color=auto'" >> $HOME/.bashrc 2>>${INSTALL_LOG_FILE}
 echo "eval \"\`dircolors\`\"" >> $HOME/.bashrc 2>>${INSTALL_LOG_FILE}
@@ -81,35 +55,23 @@ echo "alias ll='ls \$LS_OPTIONS -alh'" >> $HOME/.bashrc 2>>${INSTALL_LOG_FILE}
 echo "alias  l='ls \$LS_OPTIONS -lA'" >> $HOME/.bashrc 2>>${INSTALL_LOG_FILE}
 echo "alias grep='grep --colour=auto'" >> $HOME/.bashrc 2>>${INSTALL_LOG_FILE}
 echo "alias vi='vim'" >> $HOME/.bashrc 2>>${INSTALL_LOG_FILE}
+echo "alias rm='rm -i'" >> $HOME/.bashrc 2>>${INSTALL_LOG_FILE}
 
 /bin/cp ./ss/root/.vimrc $HOME 2>>${INSTALL_LOG_FILE}
 
 source $HOME/.bashrc 2>> ${INSTALL_LOG_FILE}
 source $HOME/.vimrc 2>> ${INSTALL_LOG_FILE}
 
-
-cat <<EOF >> /etc/profile
-export TMOUT=300
-EOF
-
-cat <<EOF >> /etc/pam.d/login
-auth required pam_tally2.so deny=6 unlock_time=180 even_deny_root root_unlock_time=180
-EOF
-
-cat <<EOF >> /etc/pam.d/su
-auth            required        pam_wheel.so use_uid
-EOF
-
-echo '######## // 用户自定义环境 结束 // ########'
+echo '######## // 用户自定义环境 结束 // ######## User defined environment to End'
 echo
 echo
-echo '######## // 准备安装 Shadowsocks-libev ... // ########'
+echo '######## // 准备安装 Shadowsocks-libev ... // ######## Ready to install Shadowsocks-libev ...'
 
 echo -e "\n\n\n\n\n\n"
 
-echo '######## // Shadowsocks-libev 开始源码包编译安装 // ########'
+echo '######## // Shadowsocks-libev 开始源码包编译安装 // ######## Source package installation start'
 echo
-echo                          '#### Configure And Install SS.. ####'
+echo                          '#### Compile and install SShadowsocks-libev.. ####'
 sleep '5s'
 echo
 SSLIBEV=$(ps -ef |grep 'ss-server' |grep -v grep |wc -l)
@@ -121,33 +83,39 @@ SSSTABLE_USER=$(ps -ef | grep 'ssserver' | grep -v 'grep' | sed -n "1,1p" | awk 
 
 
 if [ $SSLIBEV -gt "0" ]; then
-    echo "在您的系统中已经安装了 Shadowsocks-libev 并且正在运行之中..."
+    echo "安装程序检测到，在您的系统中已经安装了 Shadowsocks-libev 服务器的 C libev版 并且正在运行中..."
+	echo "如果您想继续安装，请结束当前已经在运行 Shadowsocks 的PID，示例：kill -p ${SSLIBEV_PID}"
     echo "以 ${SSLIBEV_USER} 用户身份运行  PID: ${SSLIBEV_PID}"
     echo
     echo
     echo
     exit 0
 elif [ $SSSTABLE -gt "0" ]; then
-    echo "在您的系统中已经安装了 Shadowsocks稳定版 并且正在运行之中..."
+    echo "安装程序检测到，在您的系统中已经安装了 Shadowsocks 服务器原版 并且正在运行中..."
+	echo "如果您想继续安装，请结束当前已经在运行 Shadowsocks 的PID，示例：kill -p ${SSSTABLE_PID}"
     echo "以 ${SSSTABLE_USER} 用户身份运行  PID: ${SSSTABLE_PID}"
     echo
     echo
     echo
     exit 0
 elif [ ! -d shadowsocks-libev ]; then
-    git clone https://github.com/shadowsocks/shadowsocks-libev.git 2>>${INSTALL_LOG_FILE}
+    sudo git clone https://github.com/shadowsocks/shadowsocks-libev.git 2>>${INSTALL_LOG_FILE}
     cd shadowsocks-libev
-    ./configure && make
-    make install
+    sudo ./configure && sudo make
+    sudo make install
+else
+    cd shadowsocks-libev
+    sudo ./configure && sudo make
+    sudo make install
 fi
 
 echo -e "\n\n"
-echo '######## // Shadowsocks-libev 源码包编译安装 结束 // ########'
+echo '######## // Shadowsocks-libev 源码包编译安装 结束 // ######## Source package installation End'
 echo
 echo
 echo '######## // Shadowsocks-libev 设置开机启动服务 // ########'
 echo
-echo 'Shadowsock-libev Install Done And following Install Shadowsock-libev Service......'
+echo 'Shadowsock-libev is already installed and is being installed the Shadowsock-libev Service...'
 sleep '3s'
 
 # check_install || {
@@ -155,116 +123,82 @@ sleep '3s'
 #  ./configure && make
 #  make install
 # }
+
 sleep '3s'
 cd ..
-
 echo -e "\n\n"
-
 echo Current path in: "`pwd`"
-
 echo -e "\n\n\n\n\n\n"
-
 
 #### FIXME
 #### FIXME OK
 
 if [ ! -d /etc/shadowsocks ]; then
-    mkdir -p /etc/shadowsocks 2>>${INSTALL_LOG_FILE}
-    /bin/cp ./ss/config.json /etc/shadowsocks 2>>${INSTALL_LOG_FILE}
-    /bin/cp ./ss/shadowsocks-server.service /etc/systemd/system  2>>${INSTALL_LOG_FILE}
-    /bin/cp ./ss/ss-server.xml /usr/lib/firewalld/services 2>>${INSTALL_LOG_FILE}
+    sudo mkdir -p /etc/shadowsocks 2>>${INSTALL_LOG_FILE}
+    sudo /bin/cp ${SSLIBEV_CONFIG_FILE_PATH} /etc/shadowsocks 2>>${INSTALL_LOG_FILE}
+    sudo /bin/cp ${SSLIBEV_SERVICE_PATH} /etc/systemd/system  2>>${INSTALL_LOG_FILE}
+    sudo /bin/cp ${SSLIBEV_PORT_PATH} /usr/lib/firewalld/services 2>>${INSTALL_LOG_FILE}
 elif [ -d /etc/shadowsocks ]; then
-    /bin/cp /etc/shadowsocks/config.json{,.old.bak} 2>>${INSTALL_LOG_FILE}
-    /bin/cp ./ss/config.json /etc/shadowsocks 2>>${INSTALL_LOG_FILE}
-    /bin/cp ./ss/shadowsocks-server.service /etc/systemd/system 2>>${INSTALL_LOG_FILE}
-    /bin/cp ./ss/ss-server.xml /usr/lib/firewalld/services 2>>${INSTALL_LOG_FILE}
+    sudo /bin/cp /etc/shadowsocks/config.json{,.old.bak} 2>>${INSTALL_LOG_FILE}
+    sudo /bin/cp ${SSLIBEV_CONFIG_FILE_PATH} /etc/shadowsocks 2>>${INSTALL_LOG_FILE}
+    sudo /bin/cp ${SSLIBEV_SERVICE_PATH} /etc/systemd/system 2>>${INSTALL_LOG_FILE}
+    sudo /bin/cp ${SSLIBEV_PORT_PATH} /usr/lib/firewalld/services 2>>${INSTALL_LOG_FILE}
 else
+	echo 'config.json 配置文件不存在，请您确保 Shadowsocks-libev 安装或配置文件的名称是正确的！'
     echo 'config.json file is not existed or check Make sure the Shadowsocks-libev is installed and that the configuration is correct !'
     exit 0
 fi
 #### FIXME DONE
 
-## 添加SSH 备用端口和SS端口规则到防火墙
-echo                          '#### Adding Port mapping Firewall to rules... ####'
+echo '######## // 添加 Shadowsocks-libev 端口规则到防火墙 // ######## Adding Shadowsocks-libev Port Mapping Firewall To Rules...' 
 echo -e "\n\n"
 
-firewall-cmd --add-service=ss-server --zone=public --permanent 2>>${INSTALL_LOG_FILE}
-firewall-cmd --reload 2>>${INSTALL_LOG_FILE}
+sudo firewall-cmd --add-service=Shadowsocks-libev-firewall-port --zone=public --permanent 2>>${INSTALL_LOG_FILE}
+sudo firewall-cmd --reload 2>>${INSTALL_LOG_FILE}
 
 echo -e "\n\n"
-echo                          '#### About Firewall Information Port ####'
+echo '######## // 关于 Shadowsocks-libev 的端口在防火墙的信息 // #### About Shadowsocks-libev Port in the Firewall Information ####'
 echo -e "\n\n"
 
-## 列出已添加端口的映射情况
-firewall-cmd --list-all
+echo '######## 列出已添加端口的映射情况 // ######## Listed The Mapping Of The Added Port'
+sudo firewall-cmd --list-all
 
 echo -e "\n\n"
-## 防火墙配置完毕
-echo                          '#### Over Firewall Configure ####'
+echo '######## // 防火墙配置完毕 // ######## End Firewall Configure'
+echo -e "\n\n\n\n\n\n"
+
+echo '######## // 添加SS开机自启动 -- 并立即启动SS // ######## Adding Shadowsocks-libev to Startup and Booting...'
+echo
+echo
+sudo systemctl enable ${SHADOWSOCKS_LIBEV_SERVICE_NAME} 2>>${INSTALL_LOG_FILE}
+sudo systemctl restart ${SHADOWSOCKS_LIBEV_SERVICE_NAME} 2>>${INSTALL_LOG_FILE}
 
 echo -e "\n\n\n\n\n\n"
 
-## 添加SS开机自启动 -- 并立即启动SS
-echo                          '#### Adding SS to Startup... ####'
-systemctl enable shadowsocks-server.service 2>>${INSTALL_LOG_FILE}
-systemctl restart shadowsocks-server.service 2>>${INSTALL_LOG_FILE}
 
-echo -e "\n\n\n\n\n\n"
-
-
-
-## 配置计算机名
-echo                          '#### Configure Computer MachineName ####'
-
-echo -e "\n\n"
-
-if [ -f /etc/hostname.old.bak ]; then
-    echo "/etc/hostname.old.bak file existing don't Backup" 1>>${INSTALL_LOG_FILE}
-else
-    /bin/cp /etc/hostname{,.old.bak} 2>>${INSTALL_LOG_FILE}
-fi
-
-echo -e "\n\n"
-
-if [ -f /etc/hosts.old.bak ]; then
-    echo "/etc/hosts.old.bak file existing don't Backup" 1>>${INSTALL_LOG_FILE}
-else
-    /bin/cp /etc/hosts{,.old.bak} 2>>${INSTALL_LOG_FILE}
-fi
-
-echo -e "\n\n"
-
-cat <<EOF > /etc/hostname
-localhost.vultr.guest
-EOF
-
-cat <<EOF > /etc/hosts
-127.0.0.1 localhost.vultr.guest
-EOF
-
-## 查看SS服务的运行状态
-echo                          '#### Shadowsocks status Information ####'
+echo '######## // 查看SS服务的运行状态 // ########  SShadowsocks-libev Running Status Information'
 echo
-systemctl status shadowsocks-server.service 2>>${INSTALL_LOG_FILE}
+echo
+sudo systemctl status ${SHADOWSOCKS_LIBEV_SERVICE_NAME} 2>>${INSTALL_LOG_FILE}
 echo
 echo
 echo
 echo
-
+#echo 1 > /proc/sys/net/ipv4/icmp_echo_ignore_all
 echo 'This Original Configuration All Backup Locale Following:'
+echo
+echo
 find / -type f -iname *.old.bak
 echo
 echo
 echo
 echo
 ## 列出安装完成后的所有信息
-echo                           '#### Install Information ####'
+echo                   '######## Install Information ########'
 echo
-echo                          'Your Shadowsocks port is: 34302'
+echo                 'Your Shadowsocks-libev Server Port is [ 8388 ]'
 echo
-echo                             'Your SSH port is: 22'
-echo
-echo                            '#### Begin enjoy it !!! ####'
+echo                           'Begin enjoy it ;) !!!'
 echo
 echo
 echo
