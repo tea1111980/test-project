@@ -1,17 +1,15 @@
-# test-project
+# Test install script  ( 测试安装脚本 )
 
 This script is based on the creator Madeye(@Madeye) Shadowsocks-libev project, which created the installation script
 
-Shadowsocks 安装脚本
-
-<b><font size=14px>如何使用？</font></b>
+Shadowsocks-libev 安装脚本 ( Shadowsocks-libev install script )
   <br>
   <p>
-1. 首先，在你的终端 或 SSH端 运行如下命令：
+<b><font size=14px>如何使用？</font></b>
   </p>
   </br>
-  <br>
-  <p>
+1. 首先，在你的终端 或 SSH端 运行如下命令：
+  </br>
 <code>
     git clone https://github.com/tea1111980/test-project.git
 </code>
