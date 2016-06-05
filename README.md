@@ -13,24 +13,33 @@ Statement: "This script is based on the creator
   </br>
 1. 首先，在你的终端 或 SSH端 运行如下命令：
   </br>
+
 <code>
+
     git clone https://github.com/tea1111980/test-project.git
+
 </code>
 </p>
 </br>
 2. 给执行权限 install-ss.sh
   <br>
   <p>
+
 <code>
+
      chmod +x ./test-project/install-ss.sh
+
 </code>
   </p>
   </br>
 3. 执行
   <br>
   <p>
+
 <code>
+
 ./test-project/install-ss.sh <br><p>
+
 </code>
   </p>
   </br>
