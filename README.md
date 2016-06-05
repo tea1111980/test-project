@@ -1,8 +1,14 @@
 # Test install script  ( 测试安装脚本 )
 
-This script is based on the creator Madeye(@Madeye) Shadowsocks-libev project, which created the installation script
-
+Statement: "This script is based on the creator
+<br>
+Max Lv(<a href='https://github.com/Madeye'>@Madeye</a>) Shadowsocks-libev project, which created the installation script"
+</br>
+<br>
+<p>
 Shadowsocks-libev 安装脚本 ( Shadowsocks-libev install script )
+  </p>
+  </br>
   <br>
   <p>
 <b><font size=14px>如何使用？</font></b>
