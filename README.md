@@ -2,11 +2,11 @@
 
 Statement: "This script is based on the creator
 <br>
-Max Lv(<a href='https://github.com/Madeye'>@Madeye</a>) Shadowsocks-libev project, which created the installation script"
+<b>Max Lv(<a href='https://github.com/Madeye'>@Madeye</a>) Shadowsocks-libev</b> project, which created the installation script"
 </br>
 <br>
 <p>
-Shadowsocks-libev 安装脚本 ( Shadowsocks-libev install script )
+<b>Shadowsocks-libev 安装脚本 ( Shadowsocks-libev install script )</b>
   </p>
   </br>
   <br>
