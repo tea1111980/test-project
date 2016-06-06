@@ -5,9 +5,9 @@ Statement: "This script is based on the creator<br>
 
 ###################### <br>
 
-# <font size=12px>Shadowsocks-libev 安装脚本 ( Shadowsocks-libev install script )</font>
+# <font size=5px>Shadowsocks-libev 安装脚本 ( Shadowsocks-libev install script )</font>
 
-<b><font size=10px>如何使用？</font></b>
+<b><font size=8px>如何使用？</font></b>
 
 1. 首先，在你的终端 或 SSH端 运行如下命令：<br>
 git clone https://github.com/tea1111980/test-project.git
