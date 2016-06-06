@@ -8,12 +8,12 @@
 <b><font size=8px>如何使用？</font></b>
 
 1. 首先，在你的终端 或 SSH端 运行如下命令：<br>
-<code>git clone https://github.com/tea1111980/test-project.git
+<code>git clone https://github.com/tea1111980/test-project.git<br>
 
 2. 给执行权限 install-ss.sh<br>
-<code>chmod +x ./test-project/install-ss.sh
+<code>chmod +x ./test-project/install-ss.sh<br>
 
 3. 执行<br>
-<code>./test-project/install-ss.sh</code>
+<code>./test-project/install-ss.sh</code><br>
 
 </br>
