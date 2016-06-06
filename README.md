@@ -4,7 +4,7 @@
 
 
 
-#<font size="5px" align="center">Shadowsocks-libev 安装脚本<br>( Shadowsocks-libev install script )</font>
+#<font size:"5px" align:"center">Shadowsocks-libev 安装脚本<br>( Shadowsocks-libev install script )</font>
 
 <b><font size="8px">如何使用？</font></b>
 
