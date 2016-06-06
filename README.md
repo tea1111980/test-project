@@ -1,12 +1,11 @@
 # Test install script  ( 测试安装脚本 )
 
 Statement: "This script is based on the creator<br>
-<b>Max Lv(<a href='https://github.com/Madeye'>@Madeye</a>) Shadowsocks-libev</b> project, which created the installation script"
-</br>
+<b>Max Lv(<a href='https://github.com/Madeye'>@Madeye</a>) Shadowsocks-libev</b> project, which created the installation script"</br>
 
-<i>######################</i><br>
+###################### <br>
 
-<b>Shadowsocks-libev 安装脚本 ( Shadowsocks-libev install script )<br><hr size=1px>
+# Shadowsocks-libev 安装脚本 ( Shadowsocks-libev install script )
 
 <b><font size=14px>如何使用？</font></b>
 
