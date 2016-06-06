@@ -8,11 +8,7 @@
 <b><font size=8px>如何使用？</font></b>
 
 1. 首先，在你的终端 或 SSH端 运行如下命令：<br>
-<code>
-
-git clone https://github.com/tea1111980/test-project.git
-
-</code>
+<code><p>git clone https://github.com/tea1111980/test-project.git</p></code>
 
 2. 给执行权限 install-ss.sh<br>
 chmod +x ./test-project/install-ss.sh
