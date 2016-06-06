@@ -5,8 +5,7 @@ Statement: "This script is based on the creator<br>
 
 ###################### <br>
 
-# <font size=5px>Shadowsocks-libev 安装脚本 <br>
-( Shadowsocks-libev install script )</font>
+# <font size=5px>Shadowsocks-libev 安装脚本 <br> ( Shadowsocks-libev install script )</font>
 
 <b><font size=8px>如何使用？</font></b>
 
