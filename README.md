@@ -8,13 +8,13 @@
 
 <b><font size="8px">如何使用？</font></b>
 
-1. 首先，在你的终端 或 SSH端 运行如下命令：<br>
-<code>git clone https://github.com/tea1111980/test-project.git</code>
+1. 首先，在你的终端 或 SSH端 运行如下命令：(以下所有操作，请以root身份运行，或者以普通用户身份运行时，请在命令前加sudo)<br>
+<code>sudo git clone https://github.com/tea1111980/test-project.git</code>
 
 2. 给执行权限 install-ss.sh<br>
-<code>chmod +x ./test-project/install-ss.sh</code>
+<code>sudo chmod +x ./test-project/install-ss.sh</code>
 
 3. 执行<br>
-<code>./test-project/install-ss.sh</code>
+<code>sudo ./test-project/install-ss.sh</code>
 
 </br>
