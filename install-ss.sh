@@ -59,8 +59,8 @@ echo "alias rm='rm -i'" >> $HOME/.bashrc 2>>${INSTALL_LOG_FILE}
 
 /bin/cp ./ss/root/.vimrc $HOME 2>>${INSTALL_LOG_FILE}
 
-source $HOME/.bashrc 2>> ${INSTALL_LOG_FILE}
-source $HOME/.vimrc 2>> ${INSTALL_LOG_FILE}
+source $HOME/.bashrc 2>>/dev/null
+source $HOME/.vimrc 2>>/dev/null
 
 echo '######## // 用户自定义环境 结束 // ######## User defined environment to End'
 echo
@@ -84,7 +84,7 @@ SSSTABLE_USER=$(ps -ef | grep 'ssserver' | grep -v 'grep' | sed -n "1,1p" | awk 
 
 if [ $SSLIBEV -gt "0" ]; then
     echo "安装程序检测到，在您的系统中已经安装了 Shadowsocks-libev 服务器的 C libev版 并且正在运行中..."
-	echo "如果您想继续安装，请结束当前已经在运行 Shadowsocks 的PID，示例：kill -p ${SSLIBEV_PID}"
+	echo "如果您想继续安装，请关闭正在运行的 Shadowsocks..."
     echo "以 ${SSLIBEV_USER} 用户身份运行  PID: ${SSLIBEV_PID}"
     echo
     echo
@@ -92,7 +92,7 @@ if [ $SSLIBEV -gt "0" ]; then
     exit 0
 elif [ $SSSTABLE -gt "0" ]; then
     echo "安装程序检测到，在您的系统中已经安装了 Shadowsocks 服务器原版 并且正在运行中..."
-	echo "如果您想继续安装，请结束当前已经在运行 Shadowsocks 的PID，示例：kill -p ${SSSTABLE_PID}"
+	echo "如果您想继续安装，请关闭正在运行的 Shadowsocks..."
     echo "以 ${SSSTABLE_USER} 用户身份运行  PID: ${SSSTABLE_PID}"
     echo
     echo
