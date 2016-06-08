@@ -9,7 +9,7 @@
 <b><font size="8px">如何使用？</font></b>
 
 1. 首先，在你的终端 或 SSH端 运行如下命令：<br>
-<b>注：(以下所有操作，请以root身份运行，或者以普通用户身份运行时，请在命令前加sudo)</b><br>
+<b><font color='red'>注：(以下所有操作，请以root身份运行，或者以普通用户身份运行时，请在命令前加sudo)</font></b><br>
 
 <code>sudo git clone https://github.com/tea1111980/test-project.git</code>
 
